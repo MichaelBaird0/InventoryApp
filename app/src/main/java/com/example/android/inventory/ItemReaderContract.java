@@ -19,7 +19,7 @@ public final class ItemReaderContract {
 
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_CREATE = "create table if not exists inventory" +
-                "(id integer primary key, product text, image text, quantity text," + "" +
+                "(_id integer primary key, product text, image text, quantity text," + "" +
                 "detail text, price text);";
     }
 }
