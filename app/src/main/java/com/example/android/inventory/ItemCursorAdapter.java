@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import com.example.android.inventory.ItemContract.ItemEntry;
+
 public class ItemCursorAdapter extends CursorAdapter {
 
     public ItemCursorAdapter(Activity context, Cursor cursor) {
@@ -26,9 +28,9 @@ public class ItemCursorAdapter extends CursorAdapter {
         TextView price = (TextView) view.findViewById(R.id.price);
         TextView quantity = (TextView) view.findViewById(R.id.quantity);
 
-        String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemContract.ItemEntry.PRODUCT));
-        String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemContract.ItemEntry.PRICE));
-        String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemContract.ItemEntry.QUANTITY));
+        String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT));
+        String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE));
+        String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
 
         item.setText(givenItem);
         price.setText(givenPrice);

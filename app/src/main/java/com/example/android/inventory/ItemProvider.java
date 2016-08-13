@@ -9,6 +9,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.example.android.inventory.ItemContract.ItemEntry;
+
 public class ItemProvider extends ContentProvider {
     private DbHelper dbHelper;
     private SQLiteDatabase db;
@@ -45,7 +47,7 @@ public class ItemProvider extends ContentProvider {
         switch (mUriMatcher.match(uri)) {
             case ITEMS:
                 retCursor = dbHelper.getReadableDatabase().query(
-                        ItemContract.ItemEntry.TABLE_NAME,
+                        ItemEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -56,9 +58,9 @@ public class ItemProvider extends ContentProvider {
                 break;
             case ITEMS_ID:
                 retCursor = dbHelper.getReadableDatabase().query(
-                        ItemContract.ItemEntry.TABLE_NAME,
+                        ItemEntry.TABLE_NAME,
                         projection,
-                        ItemContract.ItemEntry._ID + " = ? ",
+                        ItemEntry._ID + " = ? ",
                         new String[]{String.valueOf(ContentUris.parseId(uri))},
                         null,
                         null,
@@ -80,9 +82,9 @@ public class ItemProvider extends ContentProvider {
 
         switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                long _id = db.insert(ItemContract.ItemEntry.TABLE_NAME, null, contentValues);
+                long _id = db.insert(ItemEntry.TABLE_NAME, null, contentValues);
                 if (_id > 0) {
-                    returnUri = ItemContract.ItemEntry.buildItemsUri(_id);
+                    returnUri = ItemEntry.buildItemsUri(_id);
                 } else {
                     throw new SQLException("Failed to insert into row" + uri);
                 }
@@ -103,12 +105,11 @@ public class ItemProvider extends ContentProvider {
         }
         switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                rowsUpdated = db.update(ItemContract.ItemEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(ItemEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case ITEMS_ID:
-                rowsUpdated = db.update(ItemContract.ItemEntry.TABLE_NAME, values,
-                        ItemContract.ItemEntry._ID + " = ? ",
+                rowsUpdated = db.update(ItemEntry.TABLE_NAME, values, ItemEntry._ID + " = ? ",
                         new String[]{String.valueOf(ContentUris.parseId(uri))});
                 break;
             default:
@@ -128,16 +129,16 @@ public class ItemProvider extends ContentProvider {
         switch (mUriMatcher.match(uri)) {
             case ITEMS:
                 rowsDeleted = db.delete(
-                        ItemContract.ItemEntry.TABLE_NAME, selection, selectionArgs);
+                        ItemEntry.TABLE_NAME, selection, selectionArgs);
                 db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '"
-                        + ItemContract.ItemEntry.TABLE_NAME + "'");
+                        + ItemEntry.TABLE_NAME + "'");
                 break;
             case ITEMS_ID:
                 rowsDeleted = db.delete(ItemContract.ItemEntry.TABLE_NAME,
-                        ItemContract.ItemEntry._ID + " = ? ",
+                        ItemEntry._ID + " = ? ",
                         new String[]{String.valueOf(ContentUris.parseId(uri))});
                 db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '"
-                        + ItemContract.ItemEntry.TABLE_NAME + "'");
+                        + ItemEntry.TABLE_NAME + "'");
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -150,9 +151,9 @@ public class ItemProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                return ItemContract.ItemEntry.CONTENT_TYPE;
+                return ItemEntry.CONTENT_TYPE;
             case ITEMS_ID:
-                return ItemContract.ItemEntry.CONTENT_ITEM_TYPE;
+                return ItemEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unkown uri: " + uri);
         }
