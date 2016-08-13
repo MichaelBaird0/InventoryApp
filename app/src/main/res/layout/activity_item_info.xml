@@ -58,17 +58,16 @@
         android:layout_weight="1" >
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="@string/delete"/>
+            android:text="@string/delete"
+            android:layout_marginRight="16dp"/>
 
         <Button
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:text="@string/order"/>
+            android:text="@string/order" />
     </LinearLayout>
 </LinearLayout>
