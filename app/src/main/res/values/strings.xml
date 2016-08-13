@@ -4,4 +4,8 @@
     <string name="add">+</string>
     <string name="sale">Sale</string>
     <string name="add_item">Add Item</string>
+    <string name="done">Done</string>
+    <string name="add_image">Add Image</string>
+    <string name="delete">Delete</string>
+    <string name="order">Order</string>
 </resources>
