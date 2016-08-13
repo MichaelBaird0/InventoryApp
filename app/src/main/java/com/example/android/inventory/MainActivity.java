@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         DbHelper handler = new DbHelper(this);
         SQLiteDatabase db = handler.getWritableDatabase();
-        final Cursor cursor = db.rawQuery("SELECT  * FROM " + ItemReaderContract.ItemEntry.TABLE_NAME
+        final Cursor cursor = db.rawQuery("SELECT  * FROM " + ItemContract.ItemEntry.TABLE_NAME
                 , null);
 
         ListView listView = (ListView) findViewById(R.id.inventory_list);

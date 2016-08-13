@@ -3,167 +3,158 @@ package com.example.android.inventory;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.util.HashMap;
 
 public class ItemProvider extends ContentProvider {
-    //Defining Uri
-    static final String CONTENT_AUTHORITY = "com.example.android.inventory";
-    static final String URL = "content://" + CONTENT_AUTHORITY + "/items";
-    static final Uri CONTENT_URI = Uri.parse(URL);
-
-    DbHelper dbHelper;
-    SQLiteDatabase db;
-
-    private static HashMap<String, String> ItemMap;
+    private DbHelper dbHelper;
+    private SQLiteDatabase db;
+    private static final UriMatcher mUriMatcher = buildUriMatcher();
 
     //Integers used in the Uri
     static final int ITEMS = 1;
     static final int ITEMS_ID = 2;
 
     //map content Uri "patterns"
-    static final UriMatcher uriMatcher;
+    static UriMatcher buildUriMatcher() {
+        final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = ItemContract.CONTENT_AUTHORITY;
 
-    static {
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(CONTENT_AUTHORITY, "items", ITEMS);
-        uriMatcher.addURI(CONTENT_AUTHORITY, "items/#", ITEMS_ID);
+        uriMatcher.addURI(authority, ItemContract.PATH, ITEMS);
+        uriMatcher.addURI(authority, ItemContract.PATH + "/#", ITEMS_ID);
+
+        return uriMatcher;
     }
 
     //Make sure dbHelper has SQLiteHelper initialized
     @Override
     public boolean onCreate() {
-        Context context = getContext();
-        dbHelper = new DbHelper(context);
-        db = dbHelper.getWritableDatabase();
-
-        if (dbHelper == null) {
-            return false;
-        } else {
-            return true;
-        }
+        dbHelper = new DbHelper(getContext());
+        return true;
     }
 
     //Cursor for reading from the table
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        //Auto-generated method stub
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        Cursor retCursor;
 
-        //Table name to read from
-        builder.setTables(ItemReaderContract.ItemEntry.TABLE_NAME);
-
-        switch (uriMatcher.match(uri)) {
+        switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                builder.setProjectionMap(ItemMap);
+                retCursor = dbHelper.getReadableDatabase().query(
+                        ItemContract.ItemEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             case ITEMS_ID:
-                builder.appendWhere(ItemReaderContract.ItemEntry.ID + "="
-                        + uri.getLastPathSegment());
+                retCursor = dbHelper.getReadableDatabase().query(
+                        ItemContract.ItemEntry.TABLE_NAME,
+                        projection,
+                        ItemContract.ItemEntry._ID + " = ? ",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))},
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             default:
-                throw new IllegalArgumentException("Unknown Uri: " + uri);
+                throw new UnsupportedOperationException("Unknown Uri: " + uri);
         }
 
-        if (sortOrder == null || sortOrder == "") {
-            //Sort on ID by default
-            sortOrder = ItemReaderContract.ItemEntry.ID;
-        }
-
-        Cursor cursor = builder.query(db, projection, selection, selectionArgs, null, null,
-                sortOrder);
-        try {
-            cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        }
-        catch (NullPointerException e)
-        {
-            Log.e("Cursor Notification","Cursor cannot properly set notification", e);
-        }
-
-        return cursor;
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return retCursor;
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        long row = db.insert(ItemReaderContract.ItemEntry.TABLE_NAME, "", contentValues);
+        db = dbHelper.getWritableDatabase();
+        Uri returnUri;
 
-        if (row > 0) {
-            Uri newUri = ContentUris.withAppendedId(CONTENT_URI, row);
-            getContext().getContentResolver().notifyChange(newUri, null);
-            return newUri;
+        switch (mUriMatcher.match(uri)) {
+            case ITEMS:
+                long _id = db.insert(ItemContract.ItemEntry.TABLE_NAME, null, contentValues);
+                if (_id > 0) {
+                    returnUri = ItemContract.ItemEntry.buildItemsUri(_id);
+                } else {
+                    throw new SQLException("Failed to insert into row" + uri);
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Unkown uri: " + uri);
         }
-        throw new SQLException("Fail to add a new record into " + uri);
+        getContext().getContentResolver().notifyChange(uri, null);
+        return returnUri;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        int count;
+        int rowsUpdated;
 
-        switch (uriMatcher.match(uri)) {
+        if (values == null) {
+            throw new IllegalArgumentException("Cannot have null content value");
+        }
+        switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                count = db.update(ItemReaderContract.ItemEntry.TABLE_NAME, values, selection,
+                rowsUpdated = db.update(ItemContract.ItemEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             case ITEMS_ID:
-                count = db.update(ItemReaderContract.ItemEntry.TABLE_NAME, values,
-                        ItemReaderContract.ItemEntry.ID + " = " + uri.getLastPathSegment() +
-                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""),
-                        selectionArgs);
+                rowsUpdated = db.update(ItemContract.ItemEntry.TABLE_NAME, values,
+                        ItemContract.ItemEntry._ID + " = ? ",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))});
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported Uri " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        try{
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        catch (NullPointerException e)
-        {
-            Log.e("Notify Change", "Unable to update the data", e);
-        }
-        return count;
+
+        return rowsUpdated;
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        int count;
+        int rowsDeleted;
 
-        switch (uriMatcher.match(uri)) {
+        switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                count = db.delete(ItemReaderContract.ItemEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(
+                        ItemContract.ItemEntry.TABLE_NAME, selection, selectionArgs);
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '"
+                        + ItemContract.ItemEntry.TABLE_NAME + "'");
                 break;
             case ITEMS_ID:
-                String id = uri.getLastPathSegment();
-                count = db.delete(ItemReaderContract.ItemEntry.TABLE_NAME,
-                        ItemReaderContract.ItemEntry.ID + " = " + id +
-                                (!TextUtils.isEmpty(selection) ? "AND (" + selection + ')' : ""),
-                        selectionArgs);
+                rowsDeleted = db.delete(ItemContract.ItemEntry.TABLE_NAME,
+                        ItemContract.ItemEntry._ID + " = ? ",
+                        new String[]{String.valueOf(ContentUris.parseId(uri))});
+                db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '"
+                        + ItemContract.ItemEntry.TABLE_NAME + "'");
                 break;
             default:
-                throw new IllegalArgumentException("Unsupported Uri " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        return count;
+        return rowsDeleted;
     }
 
 
     @Override
     public String getType(Uri uri) {
-        switch (uriMatcher.match(uri)) {
+        switch (mUriMatcher.match(uri)) {
             case ITEMS:
-                return "vnd.android.cursor.dir/vnd.example.items";
+                return ItemContract.ItemEntry.CONTENT_TYPE;
             case ITEMS_ID:
-                return "vnd.android.cursor.item/vnd.example.items";
+                return ItemContract.ItemEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalArgumentException("Unsupported Uri " + uri);
+                throw new UnsupportedOperationException("Unkown uri: " + uri);
         }
     }
 }
