@@ -22,8 +22,10 @@ public class DbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        final String DATABASE_CREATE = "CREATE TABLE IF DOES NOT EXISTS "
-                + ItemEntry.TABLE_NAME + "("
+        final String DATABASE_CREATE = "CREATE TABLE IF DOES NOT EXISTS " + ItemEntry.TABLE_NAME
+                + "(" + ItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ItemEntry.PRODUCT
+                + " TEXT NOT NULL, " + ItemEntry.QUANTITY + " INTEGER NOT NULL, " + ItemEntry.PRICE
+                + " REAL NOT NULL, " + ItemEntry.IMAGE + " TEXT NOT NULL);";
         db.execSQL(DATABASE_CREATE);
     }
 
