@@ -17,7 +17,7 @@ public class ItemContract {
     public static final String PATH = "items";
 
     public static abstract class ItemEntry implements BaseColumns {
-        public static final Uri CONTENT__URI =
+        public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH).build();
 
         public static final String CONTENT_TYPE =
@@ -34,12 +34,10 @@ public class ItemContract {
 
         public static final String QUANTITY = "quantity";
 
-        public static final String DETAIL = "detail";
-
         public static final String PRICE = "price";
 
         public static Uri buildItemsUri(long id) {
-            return ContentUris.withAppendedId(CONTENT__URI, id);
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
 }

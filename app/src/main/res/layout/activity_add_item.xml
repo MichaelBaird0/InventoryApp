@@ -7,28 +7,33 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:hint="Item name" />
+        android:hint="Item name"
+        android:id="@+id/input_item"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:hint="Price" />
+        android:hint="Price"
+        android:id="@+id/add_price"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:hint="Quantity" />
+        android:hint="Quantity"
+        android:id="@+id/add_quantity"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/add_image"/>
+        android:text="@string/add_image"
+        android:id="@+id/image_button"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/done"/>
+        android:text="@string/done"
+        android:id="@+id/done"/>
 
 </LinearLayout>
