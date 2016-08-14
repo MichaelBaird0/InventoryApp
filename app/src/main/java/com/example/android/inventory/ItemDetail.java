@@ -1,6 +1,5 @@
 package com.example.android.inventory;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,9 +61,6 @@ public class ItemDetail extends AppCompatActivity {
                 if (inStock > 0) {
                     int qty = inStock - 1;
                     itemQuantity.setText(qty);
-
-                    ContentValues values = new ContentValues();
-                    values.put(ItemEntry.QUANTITY, Integer.toString(qty));
                 }
             }
         });

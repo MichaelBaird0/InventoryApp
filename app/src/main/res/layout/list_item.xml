@@ -17,7 +17,7 @@
         tools:text="Item" />
 
     <TextView
-        android:id="@+id/quantity"
+        android:id="@+id/product_qunatity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
