@@ -10,13 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:text="Item Name"/>
+        tools:text="Item Name"
+        android:id="@+id/product_name"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:text="Price"/>
+        tools:text="Price"
+        android:id="@+id/product_price"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +39,8 @@
             android:layout_gravity="center_vertical"
             android:textSize="18sp"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
+            android:layout_marginRight="16dp"
+            android:id="@+id/product_qunatity"/>
 
         <Button
             android:layout_width="wrap_content"

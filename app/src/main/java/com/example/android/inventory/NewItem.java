@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.android.inventory.ItemContract.ItemEntry;
 
@@ -69,6 +70,8 @@ public class NewItem extends AppCompatActivity {
                 values.put(ItemEntry.IMAGE, uri.toString());
 
                 Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+                Toast.makeText(getBaseContext(), returnUri.toString() + "inserted!",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
