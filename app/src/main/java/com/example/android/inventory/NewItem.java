@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.inventory.ItemContract.ItemEntry;
 
@@ -60,16 +61,24 @@ public class NewItem extends AppCompatActivity {
             public void onClick(View view) {
                 ContentValues values = new ContentValues();
 
-                try {
-                    values.put(ItemEntry.PRODUCT, itemName.getText().toString());
-                    values.put(ItemEntry.PRICE, price.getText().toString());
-                    values.put(ItemEntry.QUANTITY, quantity.getText().toString());
-                    values.put(ItemEntry.IMAGE, uri.toString());
+                String insertName = itemName.getText().toString();
+                String insertPrice = price.getText().toString();
+                String insertQuantity = quantity.getText().toString();
+                String insertImage = uri.toString();
+
+                if (insertName != null && insertPrice != null && insertQuantity != null) {
+
+                    values.put(ItemEntry.PRODUCT, insertName);
+                    values.put(ItemEntry.PRICE, insertPrice);
+                    values.put(ItemEntry.QUANTITY, insertQuantity);
+                    values.put(ItemEntry.IMAGE, insertImage);
 
                     Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
                 }
-                catch (NullPointerException e) {
-                    Log.e("Inserting Entry", "Error entering Image", e);
+                else
+                {
+                    Toast.makeText(getBaseContext(), "Enter item infromation!",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

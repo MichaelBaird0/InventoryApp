@@ -30,7 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/minus"/>
+            android:text="@string/minus"
+            android:id="@+id/decrease"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/add"/>
+            android:text="@string/add"
+            android:id="@+id/increase"/>
     </LinearLayout>
 
     <ImageView
