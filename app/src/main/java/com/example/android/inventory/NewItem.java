@@ -69,7 +69,7 @@ public class NewItem extends AppCompatActivity {
                     Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
                 }
                 catch (NullPointerException e) {
-                    Log.e("Image Entry", "Error entering Image", e);
+                    Log.e("Inserting Entry", "Error entering Image", e);
                 }
             }
         });
