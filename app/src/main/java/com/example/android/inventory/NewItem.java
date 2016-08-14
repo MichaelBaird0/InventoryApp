@@ -13,8 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.android.inventory.ItemContract.ItemEntry;
 
@@ -25,8 +23,6 @@ public class NewItem extends AppCompatActivity {
     private EditText itemName;
     private EditText price;
     private EditText quantity;
-    private Button imageButton;
-    private Button done;
 
     private static final int PICK_IMAGE = 1;
     private Uri uri;
@@ -40,7 +36,7 @@ public class NewItem extends AppCompatActivity {
         price = (EditText) findViewById(R.id.add_price);
         quantity = (EditText) findViewById(R.id.add_quantity);
 
-        imageButton = (Button) findViewById(R.id.image_button);
+        Button imageButton = (Button) findViewById(R.id.image_button);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,20 +54,23 @@ public class NewItem extends AppCompatActivity {
             }
         });
 
-        done = (Button) findViewById(R.id.done);
+        Button done = (Button) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ContentValues values = new ContentValues();
 
-                values.put(ItemEntry.PRODUCT, itemName.getText().toString());
-                values.put(ItemEntry.PRICE, price.getText().toString());
-                values.put(ItemEntry.QUANTITY, quantity.getText().toString());
-                values.put(ItemEntry.IMAGE, uri.toString());
+                try {
+                    values.put(ItemEntry.PRODUCT, itemName.getText().toString());
+                    values.put(ItemEntry.PRICE, price.getText().toString());
+                    values.put(ItemEntry.QUANTITY, quantity.getText().toString());
+                    values.put(ItemEntry.IMAGE, uri.toString());
 
-                Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
-                Toast.makeText(getBaseContext(), returnUri.toString() + "inserted!",
-                        Toast.LENGTH_SHORT).show();
+                    Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+                }
+                catch (NullPointerException e) {
+                    Log.e("Image Entry", "Error entering Image", e);
+                }
             }
         });
     }
@@ -91,8 +90,8 @@ public class NewItem extends AppCompatActivity {
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ImageView image = (ImageView) findViewById(R.id.product_image);
-                image.setImageBitmap(bitmap);
+                //ImageView image = (ImageView) findViewById(R.id.product_image);
+                //image.setImageBitmap(bitmap);
             } catch (IOException e) {
                 Log.e("Attaching Image", "Error attaching the image to product", e);
             }
