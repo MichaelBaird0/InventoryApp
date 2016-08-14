@@ -65,7 +65,7 @@ public class NewItem extends AppCompatActivity {
                     values.put(ItemEntry.PRODUCT, itemName.getText().toString());
                     values.put(ItemEntry.PRICE, price.getText().toString());
                     values.put(ItemEntry.QUANTITY, quantity.getText().toString());
-                    values.put(ItemEntry.IMAGE, uri.toString();
+                    values.put(ItemEntry.IMAGE, uri.toString());
 
                     Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
                 }
