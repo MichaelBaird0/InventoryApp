@@ -65,7 +65,6 @@ public class ItemDetail extends AppCompatActivity {
 
                     ContentValues values = new ContentValues();
                     values.put(ItemEntry.QUANTITY, Integer.toString(qty));
-
                 }
             }
         });

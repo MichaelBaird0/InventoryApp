@@ -66,8 +66,7 @@ public class NewItem extends AppCompatActivity {
                 String insertQuantity = quantity.getText().toString();
                 String insertImage = uri.toString();
 
-                if (insertName != null && insertPrice != null && insertQuantity != null) {
-
+                if (uri != null) {
                     values.put(ItemEntry.PRODUCT, insertName);
                     values.put(ItemEntry.PRICE, insertPrice);
                     values.put(ItemEntry.QUANTITY, insertQuantity);
