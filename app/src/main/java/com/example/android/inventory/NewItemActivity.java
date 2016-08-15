@@ -82,6 +82,9 @@ public class NewItemActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Enter item information!",
                             Toast.LENGTH_SHORT).show();
                 }
+
+                Intent returnIntent = new Intent(NewItemActivity.this, MainActivity.class);
+                startActivity(returnIntent);
             }
         });
     }

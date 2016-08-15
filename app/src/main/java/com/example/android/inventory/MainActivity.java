@@ -3,7 +3,6 @@ package com.example.android.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -52,14 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(getBaseContext(), "Sold one item", Toast.LENGTH_SHORT).show();
 
-                    String URL = ItemContract.ItemEntry.CONTENT_TYPE;
-                    Uri items = Uri.parse(URL);
-
-                    Cursor c = getContentResolver().query(items, null, null, null, null);
                     TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
-                    int inStock = Integer.parseInt(c.getString(c.getColumnIndexOrThrow
-                            (ItemContract.ItemEntry.QUANTITY)));
-                    c.close();
+                    int inStock = Integer.parseInt(itemQuantity.getText().toString());
 
                     if (inStock > 0) {
                         int qty = inStock - 1;

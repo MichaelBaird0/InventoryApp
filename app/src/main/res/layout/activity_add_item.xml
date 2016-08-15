@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:hint="Item name"
-        android:id="@+id/input_item"/>
+        android:id="@+id/input_item"
+        android:inputType="text"/>
 
     <EditText
         android:layout_width="match_parent"
