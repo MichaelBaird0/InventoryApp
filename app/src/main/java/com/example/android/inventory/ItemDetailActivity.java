@@ -80,7 +80,8 @@ public class ItemDetailActivity extends AppCompatActivity {
 
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
+                        getContentResolver().delete(ItemEntry.CONTENT_URI,
+                                ItemEntry.PRODUCT + " = ? ", new String[]{product});
                         Intent intent = new Intent(ItemDetailActivity.this, MainActivity.class);
                         startActivity(intent);
                     }

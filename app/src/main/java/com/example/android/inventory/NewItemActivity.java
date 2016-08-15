@@ -73,6 +73,7 @@ public class NewItemActivity extends AppCompatActivity {
                         values.put(ItemEntry.IMAGE, uri.toString());
 
                         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+
                     } else {
                         Toast.makeText(getBaseContext(), "Enter item image!",
                                 Toast.LENGTH_SHORT).show();
@@ -82,9 +83,6 @@ public class NewItemActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Enter item information!",
                             Toast.LENGTH_SHORT).show();
                 }
-
-                Intent returnIntent = new Intent(NewItemActivity.this, MainActivity.class);
-                startActivity(returnIntent);
             }
         });
     }
