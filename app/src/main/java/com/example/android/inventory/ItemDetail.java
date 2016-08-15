@@ -34,7 +34,8 @@ public class ItemDetail extends AppCompatActivity {
 
         String name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
         double cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
-        final int inStock = Integer.parseInt(c.getString(c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+        final int inStock = Integer.parseInt(c.getString
+                (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
 
         c.close();
 

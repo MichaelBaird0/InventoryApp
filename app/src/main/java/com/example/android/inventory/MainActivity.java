@@ -3,6 +3,7 @@ package com.example.android.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +45,28 @@ public class MainActivity extends AppCompatActivity {
             });
 
             cursor.close();
+
+            Button itemSale = (Button) findViewById(R.id.sold);
+            itemSale.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getBaseContext(), "Sold one item", Toast.LENGTH_SHORT).show();
+
+                    String URL = ItemContract.ItemEntry.CONTENT_TYPE;
+                    Uri items = Uri.parse(URL);
+
+                    Cursor c = getContentResolver().query(items, null, null, null, null);
+                    TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
+                    int inStock = Integer.parseInt(c.getString(c.getColumnIndexOrThrow
+                            (ItemContract.ItemEntry.QUANTITY)));
+                    c.close();
+
+                    if (inStock > 0) {
+                        int qty = inStock - 1;
+                        itemQuantity.setText(qty);
+                    }
+                }
+            });
         }
 
         Button addItem = (Button) findViewById(R.id.add_item);
@@ -53,13 +77,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(newItemIntent);
             }
         });
-
-        Button itemSale = (Button) findViewById(R.id.sale);
-        /*itemSale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
     }
 }
