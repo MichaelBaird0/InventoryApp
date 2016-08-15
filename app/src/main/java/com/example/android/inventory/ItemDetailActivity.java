@@ -32,7 +32,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         Cursor c = getContentResolver().query(items, null, null, null, null);
 
-        String name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
+        final String name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
         double cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
         final int inStock = Integer.parseInt(c.getString
                 (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
@@ -81,7 +81,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         getContentResolver().delete(ItemEntry.CONTENT_URI,
-                                ItemEntry.PRODUCT + " = ? ", new String[]{product});
+                                ItemEntry.PRODUCT + " = ? ", new String[]{name});
                         Intent intent = new Intent(ItemDetailActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
