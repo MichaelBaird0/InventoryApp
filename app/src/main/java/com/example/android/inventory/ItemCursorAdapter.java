@@ -26,7 +26,7 @@ public class ItemCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView item = (TextView) view.findViewById(R.id.product);
         TextView price = (TextView) view.findViewById(R.id.price);
-        TextView quantity = (TextView) view.findViewById(R.id.product_qunatity);
+        TextView quantity = (TextView) view.findViewById(R.id.product_quantity);
 
         String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT));
         String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE));

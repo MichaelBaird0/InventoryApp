@@ -3,7 +3,6 @@ package com.example.android.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -26,18 +25,25 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.inventory_list);
         final ItemCursorAdapter adapter = new ItemCursorAdapter(this, cursor);
-        listView.setAdapter(adapter);
+        if(adapter.isEmpty())
+        {
+            TextView empty = (TextView) findViewById(R.id.empty);
+            empty.setText(R.string.ask_input);
+        }
+        else {
+            listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent detailIntent = new Intent(MainActivity.this, ItemDetail.class);
-                detailIntent.putExtra("_id", id);
-                startActivity(detailIntent);
-            }
-        });
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    Intent detailIntent = new Intent(MainActivity.this, ItemDetail.class);
+                    detailIntent.putExtra("_id", id);
+                    startActivity(detailIntent);
+                }
+            });
 
-        cursor.close();
+            cursor.close();
+        }
 
         Button addItem = (Button) findViewById(R.id.add_item);
         addItem.setOnClickListener(new View.OnClickListener() {
@@ -48,25 +54,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button sale = (Button) findViewById(R.id.sale);
-        sale.setOnClickListener(new View.OnClickListener() {
+        Button itemSale = (Button) findViewById(R.id.sale);
+        /*itemSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String URL = ItemContract.ItemEntry.CONTENT_TYPE;
-                Uri items = Uri.parse(URL);
 
-                Cursor c = getContentResolver().query(items, null, null, null, null);
-                int inStock = Integer.parseInt(c.getString(c.getColumnIndexOrThrow
-                        (ItemContract.ItemEntry.QUANTITY)));
-                c.close();
-
-                TextView itemQuantity = (TextView) findViewById(R.id.product_qunatity);
-
-                if (inStock > 0) {
-                    int qty = inStock - 1;
-                    itemQuantity.setText(qty);
-                }
             }
-        });
+        });*/
     }
 }

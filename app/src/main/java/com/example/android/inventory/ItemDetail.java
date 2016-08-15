@@ -40,7 +40,7 @@ public class ItemDetail extends AppCompatActivity {
 
         TextView itemName = (TextView) findViewById(R.id.product_name);
         TextView itemPrice = (TextView) findViewById(R.id.product_price);
-        final TextView itemQuantity = (TextView) findViewById(R.id.product_qunatity);
+        final TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
         ImageView itemImage = (ImageView) findViewById(R.id.product_image);
 
         itemName.setText(name);
