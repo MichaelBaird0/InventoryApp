@@ -26,12 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.inventory_list);
         final ItemCursorAdapter adapter = new ItemCursorAdapter(this, cursor);
-        if(adapter.isEmpty())
-        {
+        if (adapter.isEmpty()) {
             TextView empty = (TextView) findViewById(R.id.empty);
             empty.setText(R.string.ask_input);
-        }
-        else {
+        } else {
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -42,25 +40,23 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(detailIntent);
                 }
             });
-
-            cursor.close();
-
-            Button itemSale = (Button) findViewById(R.id.sold);
-            itemSale.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(getBaseContext(), "Sold one item", Toast.LENGTH_SHORT).show();
-
-                    TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
-                    int inStock = Integer.parseInt(itemQuantity.getText().toString());
-
-                    if (inStock > 0) {
-                        int qty = inStock - 1;
-                        itemQuantity.setText(qty);
-                    }
-                }
-            });
         }
+
+        Button itemSale = (Button) findViewById(R.id.sold);
+        itemSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Sold one item", Toast.LENGTH_SHORT).show();
+
+                TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
+                int inStock = Integer.parseInt(itemQuantity.getText().toString());
+
+                if (inStock > 0) {
+                    int qty = inStock - 1;
+                    itemQuantity.setText(qty);
+                }
+            }
+        });
 
         Button addItem = (Button) findViewById(R.id.add_item);
         addItem.setOnClickListener(new View.OnClickListener() {

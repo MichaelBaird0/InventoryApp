@@ -46,7 +46,7 @@ public class ItemDetailActivity extends AppCompatActivity {
 
         itemName.setText(name);
         itemPrice.setText(R.string.dollar_sign + String.valueOf(cost));
-        itemQuantity.setText(inStock);
+        itemQuantity.setText(String.valueOf(inStock));
         itemImage.setImageBitmap(getBitMapFromUri(ItemEntry.CONTENT_URI));
 
         Button increase = (Button) findViewById(R.id.increase);
