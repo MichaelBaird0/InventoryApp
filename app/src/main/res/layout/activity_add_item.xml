@@ -14,13 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:hint="Price"
-        android:id="@+id/add_price"/>
+        android:id="@+id/add_price"
+        android:inputType="numberDecimal"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:hint="Quantity"
-        android:id="@+id/add_quantity"/>
+        android:id="@+id/add_quantity"
+        android:inputType="number"/>
 
     <Button
         android:layout_width="wrap_content"

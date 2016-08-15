@@ -5,7 +5,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-public class ItemContract {
+public final class ItemContract {
 
     //Authority of the content provider
     public static final String CONTENT_AUTHORITY = "com.example.android.inventory";

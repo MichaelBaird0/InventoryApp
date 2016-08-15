@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewItem"
+        <activity android:name=".NewItemActivity"
             android:label="New Item"/>
-        <activity android:name=".ItemDetail"
+        <activity android:name=".ItemDetailActivity"
             android:label="Item Detail"/>
         <provider
             android:authorities="com.example.android.inventory"

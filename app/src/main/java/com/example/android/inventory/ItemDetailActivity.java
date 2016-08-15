@@ -21,7 +21,7 @@ import com.example.android.inventory.ItemContract.ItemEntry;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
-public class ItemDetail extends AppCompatActivity {
+public class ItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +73,7 @@ public class ItemDetail extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(ItemDetail.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(ItemDetailActivity.this);
                 alert.setMessage("Do you want to delete this item?");
                 alert.setCancelable(true);
 
@@ -81,7 +81,7 @@ public class ItemDetail extends AppCompatActivity {
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
-                        Intent intent = new Intent(ItemDetail.this, MainActivity.class);
+                        Intent intent = new Intent(ItemDetailActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
                 });

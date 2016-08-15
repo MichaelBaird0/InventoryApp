@@ -19,7 +19,7 @@ import com.example.android.inventory.ItemContract.ItemEntry;
 
 import java.io.IOException;
 
-public class NewItem extends AppCompatActivity {
+public class NewItemActivity extends AppCompatActivity {
 
     private EditText itemName;
     private EditText price;
@@ -65,7 +65,7 @@ public class NewItem extends AppCompatActivity {
                 String insertPrice = price.getText().toString();
                 String insertQuantity = quantity.getText().toString();
 
-                if (validate(insertName, insertPrice, insertQuantity)) {
+                if (!insertName.isEmpty() && !insertPrice.isEmpty() && !insertQuantity.isEmpty()){
                     if (uri != null) {
                         values.put(ItemEntry.PRODUCT, insertName);
                         values.put(ItemEntry.PRICE, insertPrice);
@@ -74,32 +74,16 @@ public class NewItem extends AppCompatActivity {
 
                         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
                     } else {
-                        Toast.makeText(getBaseContext(), "Enter item information!",
+                        Toast.makeText(getBaseContext(), "Enter item image!",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
+                else {
+                    Toast.makeText(getBaseContext(), "Enter item information!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
-
-    private boolean validate(String item, String price, String quantity) {
-        if (item != null && price != null && quantity != null) {
-            if (price.equals(Double.parseDouble(price))) {
-                if (quantity.equals(Integer.parseInt(quantity))) {
-                    return true;
-                } else {
-                    Toast.makeText(getBaseContext(), "Enter a quantity as a integer.",
-                            Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            } else {
-                Toast.makeText(getBaseContext(), "Enter a price as a double.",
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        }
-        Toast.makeText(getBaseContext(), "Missing Fields.", Toast.LENGTH_SHORT).show();
-        return false;
     }
 
     @Override

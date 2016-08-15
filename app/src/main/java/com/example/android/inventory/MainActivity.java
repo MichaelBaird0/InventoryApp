@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                    Intent detailIntent = new Intent(MainActivity.this, ItemDetail.class);
+                    Intent detailIntent = new Intent(MainActivity.this, ItemDetailActivity.class);
                     detailIntent.putExtra("_id", id);
                     startActivity(detailIntent);
                 }
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newItemIntent = new Intent(MainActivity.this, NewItem.class);
+                Intent newItemIntent = new Intent(MainActivity.this, NewItemActivity.class);
                 startActivity(newItemIntent);
             }
         });
