@@ -1,11 +1,14 @@
 package com.example.android.inventory;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -61,6 +64,46 @@ public class ItemDetail extends AppCompatActivity {
                 if (inStock > 0) {
                     int qty = inStock - 1;
                     itemQuantity.setText(qty);
+                }
+            }
+        });
+
+        Button delete = (Button) findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(ItemDetail.this);
+                alert.setMessage("Do you want to delete this item?");
+                alert.setCancelable(true);
+
+
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getContentResolver().delete(ItemEntry.CONTENT_URI, null, null);
+                        Intent intent = new Intent(ItemDetail.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+                alert.create().show();
+            }
+        });
+
+        Button order = (Button) findViewById(R.id.order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent email = new Intent(Intent.ACTION_SENDTO);
+                email.setType("*/*");
+                email.putExtra(Intent.EXTRA_SUBJECT, "Order more of product!");
+                if (email.resolveActivity(getPackageManager()) != null) {
+                    startActivity(email);
                 }
             }
         });

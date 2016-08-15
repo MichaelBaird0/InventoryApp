@@ -67,11 +67,11 @@ public class NewItem extends AppCompatActivity {
                     values.put(ItemEntry.QUANTITY, quantity.getText().toString());
                     values.put(ItemEntry.IMAGE, uri.toString());
 
-                    Uri returnUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+                    getContentResolver().insert(ItemEntry.CONTENT_URI, values);
                 }
                 else
                 {
-                    Toast.makeText(getBaseContext(), "Enter item infromation!",
+                    Toast.makeText(getBaseContext(), "Enter item information!",
                             Toast.LENGTH_SHORT).show();
                 }
             }

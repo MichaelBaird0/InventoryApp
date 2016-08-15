@@ -3,12 +3,14 @@ package com.example.android.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +45,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent newItemIntent = new Intent(MainActivity.this, NewItem.class);
                 startActivity(newItemIntent);
+            }
+        });
+
+        Button sale = (Button) findViewById(R.id.sale);
+        sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String URL = ItemContract.ItemEntry.CONTENT_TYPE;
+                Uri items = Uri.parse(URL);
+
+                Cursor c = getContentResolver().query(items, null, null, null, null);
+                int inStock = Integer.parseInt(c.getString(c.getColumnIndexOrThrow
+                        (ItemContract.ItemEntry.QUANTITY)));
+                c.close();
+
+                TextView itemQuantity = (TextView) findViewById(R.id.product_qunatity);
+
+                if (inStock > 0) {
+                    int qty = inStock - 1;
+                    itemQuantity.setText(qty);
+                }
             }
         });
     }
