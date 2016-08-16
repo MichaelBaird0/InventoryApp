@@ -1,8 +1,11 @@
 package com.example.android.inventory;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +17,12 @@ import com.example.android.inventory.ItemContract.ItemEntry;
 
 public class ItemCursorAdapter extends CursorAdapter {
 
+    private Context mContext;
+    private  ContentValues values;
+
     public ItemCursorAdapter(Activity context, Cursor cursor) {
         super(context, cursor, 0);
+        mContext = context;
     }
 
     @Override
@@ -32,6 +39,7 @@ public class ItemCursorAdapter extends CursorAdapter {
         String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT));
         String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE));
         final String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
+        final long id = cursor.getColumnIndexOrThrow(ItemEntry._ID);
 
         item.setText(givenItem);
         price.setText("$" + givenPrice);
@@ -48,6 +56,11 @@ public class ItemCursorAdapter extends CursorAdapter {
                     qty--;
                 }
                 quantity.setText(String.valueOf(qty));
+
+                values = new ContentValues();
+                values.put(ItemEntry.QUANTITY, String.valueOf(qty));
+                Uri uri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, id);
+                mContext.getContentResolver().update(uri, values, null, null);
             }
         });
     }

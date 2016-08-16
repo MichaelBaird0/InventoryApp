@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.inventory.MainActivity" >
+    tools:context="com.example.android.inventory.MainActivity">
 
     <ListView
         android:id="@+id/inventory_list"
@@ -11,16 +11,15 @@
         android:layout_height="wrap_content"
         android:divider="@android:color/black"
         android:dividerHeight="1dp"
-        android:drawSelectorOnTop="true"
-        android:descendantFocusability="blocksDescendants"/>
+        android:drawSelectorOnTop="true" />
 
     <TextView
+        android:id="@+id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:id="@+id/empty"/>
+        android:layout_centerInParent="true"
+        android:textSize="18sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"

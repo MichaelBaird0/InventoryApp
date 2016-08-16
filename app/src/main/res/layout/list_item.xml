@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="88dp"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
     android:padding="16dp">
 
@@ -21,18 +22,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:textSize="18sp"
-        tools:text="Quantity"
-        android:layout_weight="1"/>
+        tools:text="Quantity" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:textSize="18sp"
-        tools:text="Price"
-        android:layout_weight="1"/>
+        tools:text="Price" />
 
     <Button
         android:id="@+id/sold"
