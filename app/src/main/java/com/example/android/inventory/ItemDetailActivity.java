@@ -35,7 +35,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         String URL = ItemEntry.CONTENT_TYPE;
         Uri itemsUri = Uri.parse(URL);
 
-        final long _id = getIntent().getLongExtra("KEY", -1);
+        long _id = getIntent().getLongExtra("KEY", -1);
         Cursor c = getContentResolver().query(itemsUri, null, null, null, null);
 
         try {
@@ -59,7 +59,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         ImageView itemImage = (ImageView) findViewById(R.id.product_image);
 
         itemName.setText(name);
-        itemPrice.setText(R.string.dollar_sign + String.valueOf(cost));
+        itemPrice.setText("$" + String.valueOf(cost));
         itemQuantity.setText(String.valueOf(inStock));
         itemImage.setImageBitmap(getBitMapFromUri(ItemEntry.CONTENT_URI));
 
