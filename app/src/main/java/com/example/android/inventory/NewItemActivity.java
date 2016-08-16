@@ -73,6 +73,8 @@ public class NewItemActivity extends AppCompatActivity {
                         values.put(ItemEntry.IMAGE, uri.toString());
 
                         getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+                        Intent returnIntent = new Intent(NewItemActivity.this, MainActivity.class);
+                        startActivity(returnIntent);
 
                     } else {
                         Toast.makeText(getBaseContext(), "Enter item image!",
