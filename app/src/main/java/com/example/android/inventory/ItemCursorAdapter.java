@@ -19,10 +19,12 @@ public class ItemCursorAdapter extends CursorAdapter {
 
     private Context mContext;
     private  ContentValues values;
+    private Cursor mCursor;
 
     public ItemCursorAdapter(Activity context, Cursor cursor) {
         super(context, cursor, 0);
         mContext = context;
+        mCursor = cursor;
     }
 
     @Override
@@ -38,23 +40,25 @@ public class ItemCursorAdapter extends CursorAdapter {
 
         String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT));
         String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE));
-        final String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
+        //String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
         final long id = cursor.getColumnIndexOrThrow(ItemEntry._ID);
 
         item.setText(givenItem);
         price.setText("$" + givenPrice);
-        quantity.setText(givenQuantity);
+        quantity.setText(cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
 
         Button itemSale = (Button) view.findViewById(R.id.sold);
         itemSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = Integer.parseInt(givenQuantity);
+                int qty = Integer.parseInt(mCursor.getString
+                        (mCursor.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
 
                 if(qty > 0)
                 {
                     qty--;
                 }
+
                 quantity.setText(String.valueOf(qty));
 
                 values = new ContentValues();

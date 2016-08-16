@@ -26,6 +26,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private String name;
     private int inStock;
     private double cost;
+    private String image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
             inStock = Integer.parseInt(c.getString
                     (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+            image = c.getString(c.getColumnIndexOrThrow(ItemEntry.IMAGE));
         }
 
         TextView itemName = (TextView) findViewById(R.id.product_name);
@@ -104,7 +106,6 @@ public class ItemDetailActivity extends AppCompatActivity {
 
 
         Button order = (Button) findViewById(R.id.order);
-
         order.setOnClickListener(new View.OnClickListener() {
             @Override
 
