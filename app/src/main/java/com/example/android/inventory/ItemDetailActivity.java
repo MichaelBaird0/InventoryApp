@@ -22,20 +22,36 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 
 public class ItemDetailActivity extends AppCompatActivity {
+
+    private String name;
+    private int inStock;
+    private double cost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_info);
 
         String URL = ItemEntry.CONTENT_TYPE;
-        Uri items = Uri.parse(URL);
+        Uri itemsUri = Uri.parse(URL);
 
-        Cursor c = getContentResolver().query(items, null, null, null, null);
+        final long _id = getIntent().getLongExtra("KEY", -1);
+        Cursor c = getContentResolver().query(itemsUri, null, null, null, null);
 
-        final String name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
-        double cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
-        final int inStock = Integer.parseInt(c.getString
-                (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+        try {
+            if (c.moveToNext()) {
+                name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
+                //rest of the code
+                cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
+                inStock = Integer.parseInt(c.getString
+                        (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+            }
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(" Move Cursor", "Failed to generate Uri", e);
+        }
+
 
         TextView itemName = (TextView) findViewById(R.id.product_name);
         TextView itemPrice = (TextView) findViewById(R.id.product_price);
@@ -52,7 +68,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int qty = inStock + 1;
-                itemQuantity.setText(qty);
+                itemQuantity.setText(String.valueOf(qty));
             }
         });
 
@@ -62,7 +78,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (inStock > 0) {
                     int qty = inStock - 1;
-                    itemQuantity.setText(qty);
+                    itemQuantity.setText(String.valueOf(qty));
                 }
             }
         });
@@ -95,9 +111,12 @@ public class ItemDetailActivity extends AppCompatActivity {
             }
         });
 
+
         Button order = (Button) findViewById(R.id.order);
+
         order.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
                 Intent email = new Intent(Intent.ACTION_SENDTO);
                 email.setType("*/*");

@@ -38,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
                                         long id) {
                     Cursor c = (Cursor) adapter.getItem(position);
                     c.moveToPosition(position);
+                    long _id = c.getLong(c.getColumnIndexOrThrow(ItemEntry._ID));
 
-                    startActivity(new Intent(MainActivity.this, ItemDetailActivity.class));
+                    Intent detailIntent = new Intent(MainActivity.this, ItemDetailActivity.class);
+                    detailIntent.putExtra("KEY",_id);  //MAGIC
+                    startActivity(detailIntent);
                 }
             });
         }
