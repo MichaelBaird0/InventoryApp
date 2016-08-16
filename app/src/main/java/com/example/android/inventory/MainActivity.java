@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     Cursor c = (Cursor) adapter.getItem(position);
                     c.moveToPosition(position);
 
-                    Intent detailIntent = new Intent(MainActivity.this, ItemDetailActivity.class);
-                    startActivity(detailIntent);
+                    startActivity(new Intent(MainActivity.this, ItemDetailActivity.class));
                 }
             });
         }
