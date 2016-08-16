@@ -37,8 +37,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         final int inStock = Integer.parseInt(c.getString
                 (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
 
-        c.close();
-
         TextView itemName = (TextView) findViewById(R.id.product_name);
         TextView itemPrice = (TextView) findViewById(R.id.product_price);
         final TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);

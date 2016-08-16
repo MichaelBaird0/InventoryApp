@@ -98,7 +98,6 @@ public class NewItemActivity extends AppCompatActivity {
             Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
             assert cursor != null;
             cursor.moveToFirst();
-            cursor.close();
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);

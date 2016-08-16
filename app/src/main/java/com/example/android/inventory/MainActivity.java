@@ -10,7 +10,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.android.inventory.ItemContract.ItemEntry;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,42 +22,28 @@ public class MainActivity extends AppCompatActivity {
 
         DbHelper handler = new DbHelper(this);
         SQLiteDatabase db = handler.getWritableDatabase();
-        final Cursor cursor = db.rawQuery("SELECT  * FROM " + ItemContract.ItemEntry.TABLE_NAME
-                , null);
+        final Cursor cursor = db.rawQuery("SELECT  * FROM " + ItemEntry.TABLE_NAME, null);
 
         ListView listView = (ListView) findViewById(R.id.inventory_list);
         final ItemCursorAdapter adapter = new ItemCursorAdapter(this, cursor);
+        listView.setAdapter(adapter);
+
         if (adapter.isEmpty()) {
             TextView empty = (TextView) findViewById(R.id.empty);
             empty.setText(R.string.ask_input);
         } else {
-            listView.setAdapter(adapter);
-
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> adapterView, View view, int position,
+                                        long id) {
+                    Cursor c = (Cursor) adapter.getItem(position);
+                    c.moveToPosition(position);
+
                     Intent detailIntent = new Intent(MainActivity.this, ItemDetailActivity.class);
-                    detailIntent.putExtra("_id", id);
                     startActivity(detailIntent);
                 }
             });
         }
-
-        Button itemSale = (Button) findViewById(R.id.sold);
-        itemSale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getBaseContext(), "Sold one item", Toast.LENGTH_SHORT).show();
-
-                TextView itemQuantity = (TextView) findViewById(R.id.product_quantity);
-                int inStock = Integer.parseInt(itemQuantity.getText().toString());
-
-                if (inStock > 0) {
-                    int qty = inStock - 1;
-                    itemQuantity.setText(qty);
-                }
-            }
-        });
 
         Button addItem = (Button) findViewById(R.id.add_item);
         addItem.setOnClickListener(new View.OnClickListener() {
