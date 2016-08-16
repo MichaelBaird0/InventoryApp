@@ -32,26 +32,17 @@ public class ItemDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_info);
 
-        String URL = ItemEntry.CONTENT_TYPE;
-        Uri itemsUri = Uri.parse(URL);
-
         long _id = getIntent().getLongExtra("KEY", -1);
-        Cursor c = getContentResolver().query(itemsUri, null, null, null, null);
+        Uri itemUri = ItemEntry.buildItemsUri(_id);
+        Cursor c = getContentResolver().query(itemUri, null, null, null, null);
 
-        try {
-            if (c.moveToNext()) {
-                name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
-                //rest of the code
-                cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
-                inStock = Integer.parseInt(c.getString
-                        (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
-            }
-        }
-        catch (NullPointerException e)
-        {
-            Log.e(" Move Cursor", "Failed to generate Uri", e);
-        }
 
+        if (c.moveToNext()) {
+            name = c.getString(c.getColumnIndexOrThrow(ItemEntry.PRODUCT));
+            cost = Double.parseDouble(c.getString(c.getColumnIndexOrThrow(ItemEntry.PRICE)));
+            inStock = Integer.parseInt(c.getString
+                    (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+        }
 
         TextView itemName = (TextView) findViewById(R.id.product_name);
         TextView itemPrice = (TextView) findViewById(R.id.product_price);
