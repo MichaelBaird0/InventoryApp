@@ -34,7 +34,7 @@ public class ItemCursorAdapter extends CursorAdapter {
         final String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
 
         item.setText(givenItem);
-        price.setText(givenPrice);
+        price.setText("$" + givenPrice);
         quantity.setText(givenQuantity);
 
         Button itemSale = (Button) view.findViewById(R.id.sold);
