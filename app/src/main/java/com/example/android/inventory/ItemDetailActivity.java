@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.android.inventory.ItemContract.ItemEntry;
 
 import java.io.FileDescriptor;
@@ -32,6 +31,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     private ContentValues addValue;
     private ContentValues subValue;
     private long id;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             inStock = Integer.parseInt(c.getString
                     (c.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
             id = c.getLong(c.getColumnIndexOrThrow(ItemEntry._ID));
+            imageUri = Uri.parse(c.getString(c.getColumnIndexOrThrow(ItemEntry.IMAGE)));
         }
 
         TextView itemName = (TextView) findViewById(R.id.product_name);
@@ -60,14 +61,12 @@ public class ItemDetailActivity extends AppCompatActivity {
         itemPrice.setText("$" + String.valueOf(cost));
         itemQuantity.setText(String.valueOf(inStock));
 
-        Uri imageUri = Uri.parse(c.getString(c.getColumnIndexOrThrow(ItemEntry.IMAGE)));
-
-        Glide.with(itemImage.getContext())
+        /*Glide.with(itemImage.getContext())
                 .load(getBitMapFromUri(imageUri))
                 .override(100, 100) // resizes the image to these dimensions (in pixel)
                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
-                .into(itemImage);
-        //itemImage.setImageBitmap(getBitMapFromUri(imageUri));
+                .into(itemImage); */
+        itemImage.setImageBitmap(getBitMapFromUri(imageUri));
 
         Button increase = (Button) findViewById(R.id.increase);
         increase.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +147,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         ParcelFileDescriptor parcelFileDescriptor = null;
         try {
             parcelFileDescriptor =
-                    getContentResolver().openFileDescriptor(uri, ItemEntry.IMAGE);
+                    getContentResolver().openFileDescriptor(uri, "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
             Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
             parcelFileDescriptor.close();
