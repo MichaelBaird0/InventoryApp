@@ -51,8 +51,20 @@ public class ItemCursorAdapter extends CursorAdapter {
         itemSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = Integer.parseInt(mCursor.getString
-                        (mCursor.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+                String[] selectionArgs = new String[]{Long.toString(id)};
+                Cursor queryResult;
+                queryResult = mContext.getContentResolver().query(
+                        ItemEntry.CONTENT_URI,
+                        null,
+                        "_ID=?",
+                        selectionArgs,
+                        null
+                );
+
+                queryResult.moveToFirst();
+                int qty = Integer.parseInt(queryResult.getString
+                        (queryResult.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
+                queryResult.close();
 
                 if(qty > 0)
                 {

@@ -60,7 +60,7 @@ public class ItemDetailActivity extends AppCompatActivity {
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = inStock + 1;
+                int qty = inStock++;
                 itemQuantity.setText(String.valueOf(qty));
             }
         });
@@ -70,7 +70,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (inStock > 0) {
-                    int qty = inStock - 1;
+                    int qty = inStock--;
                     itemQuantity.setText(String.valueOf(qty));
                 }
             }

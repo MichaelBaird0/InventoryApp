@@ -99,6 +99,7 @@ public class ItemProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         int rowsUpdated;
+        db = dbHelper.getWritableDatabase();
 
         if (values == null) {
             throw new IllegalArgumentException("Cannot have null content value");
