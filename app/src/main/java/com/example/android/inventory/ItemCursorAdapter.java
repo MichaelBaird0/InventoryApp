@@ -18,13 +18,11 @@ import com.example.android.inventory.ItemContract.ItemEntry;
 public class ItemCursorAdapter extends CursorAdapter {
 
     private Context mContext;
-    private  ContentValues values;
-    private Cursor mCursor;
+    private ContentValues values;
 
     public ItemCursorAdapter(Activity context, Cursor cursor) {
         super(context, cursor, 0);
         mContext = context;
-        mCursor = cursor;
     }
 
     @Override
@@ -38,13 +36,10 @@ public class ItemCursorAdapter extends CursorAdapter {
         TextView price = (TextView) view.findViewById(R.id.price);
         final TextView quantity = (TextView) view.findViewById(R.id.product_quantity);
 
-        String givenItem = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT));
-        String givenPrice = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE));
-        //String givenQuantity = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY));
-        final long id = cursor.getColumnIndexOrThrow(ItemEntry._ID);
+        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemEntry._ID));
 
-        item.setText(givenItem);
-        price.setText("$" + givenPrice);
+        item.setText(cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRODUCT)));
+        price.setText("$" + cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.PRICE)));
         quantity.setText(cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
 
         Button itemSale = (Button) view.findViewById(R.id.sold);
@@ -66,8 +61,7 @@ public class ItemCursorAdapter extends CursorAdapter {
                         (queryResult.getColumnIndexOrThrow(ItemEntry.QUANTITY)));
                 queryResult.close();
 
-                if(qty > 0)
-                {
+                if (qty > 0) {
                     qty--;
                 }
 
