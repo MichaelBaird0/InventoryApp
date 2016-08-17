@@ -3,7 +3,6 @@
     package="com.example.android.inventory">
     
     <uses-permission android:name="android.Manifest.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.Manifest.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"

@@ -60,12 +60,14 @@ public class ItemDetailActivity extends AppCompatActivity {
         itemPrice.setText("$" + String.valueOf(cost));
         itemQuantity.setText(String.valueOf(inStock));
 
+        Uri imageUri = Uri.parse(c.getString(c.getColumnIndexOrThrow(ItemEntry.IMAGE)));
+
         Glide.with(itemImage.getContext())
-                .load(getBitMapFromUri(ItemEntry.CONTENT_URI))
+                .load(getBitMapFromUri(imageUri))
                 .override(100, 100) // resizes the image to these dimensions (in pixel)
                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                 .into(itemImage);
-        //itemImage.setImageBitmap(getBitMapFromUri(ItemEntry.CONTENT_URI));
+        //itemImage.setImageBitmap(getBitMapFromUri(imageUri));
 
         Button increase = (Button) findViewById(R.id.increase);
         increase.setOnClickListener(new View.OnClickListener() {
